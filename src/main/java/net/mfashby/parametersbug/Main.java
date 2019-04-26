@@ -1,3 +1,5 @@
+package net.mfashby.parametersbug;
+
 import static ca.uhn.fhir.context.FhirContext.forDstu3;
 
 import org.hl7.fhir.dstu3.model.Observation;
@@ -15,12 +17,22 @@ public class Main {
         fhirValidator.registerValidatorModule(new SchemaBaseValidator(fhirContext));
         fhirValidator.registerValidatorModule(new SchematronBaseValidator(fhirContext));
 
+
         // Throws exception due to missing schematron
-        Parameters parameters = new Parameters();
-        System.out.println(fhirValidator.validateWithResult(parameters));
+        try {
+            Parameters parameters = new Parameters();
+            System.out.println(fhirValidator.validateWithResult(parameters));
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+
 
         // Validates and returns validation errors
-        Observation observation = new Observation();
-        System.out.println(fhirValidator.validateWithResult(observation));
+        try {
+            Observation observation = new Observation();
+            System.out.println(fhirValidator.validateWithResult(observation));
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
     }
 }
